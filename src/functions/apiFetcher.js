@@ -1,4 +1,4 @@
-async function latLongFetcher(location = 'Stockholm') {
+async function latLongFetcher(location = 'Malmö') {
   try {
     const geoCoordinates = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=fb7870376af0a09b9d81956c74c34876`

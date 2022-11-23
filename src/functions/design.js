@@ -114,10 +114,14 @@ function miniDataCards(data, units = 'metric') {
   const cOfRainCard = document.createElement('div');
   const cOfRain = document.createElement('div');
   const cOfRainData = document.createElement('div');
-  cOfRain.innerText = 'Chance of Rain';
-  if (data.hasOwnProperty.call('rain')) {
+  cOfRain.innerText = 'Precipitation';
+  if (('rain') in data) {
     cOfRainData.innerText = `${data.rain['1h'] * 100} %`;
-  } else {
+  }
+  else if (("snow")in data){
+    cOfRainData.innerText = `${data.snow['1h'] * 100} %`;
+  }
+  else {
     cOfRainData.innerText = `N/A`;
   }
 
