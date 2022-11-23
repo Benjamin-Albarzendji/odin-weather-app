@@ -34,11 +34,25 @@ function currentWeatherCard(data, units = 'metric') {
 
   // Weather Temp Div
   const weatherTemp = document.createElement('div');
-  weatherTemp.innerText = ` ${data.main.temp}${unit}`;
+  weatherTemp.innerText = ` ${Math.round(data.main.temp)}${unit}`;
   weatherTemp.className = 'weatherTemp';
   weatherCard.appendChild(weatherTemp);
 
   imageAppender(weatherCard, data.weather[0].icon);
+
+  // max min Div
+  const maxMin = document.createElement('div');
+  maxMin.className = 'maxMin';
+  const max = document.createElement('div');
+  max.className = 'max';
+  max.innerText = ` L: ${Math.round(data.main.temp_max)}°`;
+  const min = document.createElement('div');
+  min.className = 'min';
+  min.innerText = ` H: ${Math.round(data.main.temp_min)}°`;
+  maxMin.appendChild(max);
+  maxMin.appendChild(min);
+
+  weatherCard.appendChild(maxMin);
 
   // Location div
   const location = document.createElement('div');
@@ -65,12 +79,64 @@ function currentWeatherCard(data, units = 'metric') {
 
 // Creates the data mini cards above the main card
 function miniDataCards(data, units = 'metric') {
-  const unit = units === 'metric' ? '°C' : '°F';
+  const speed = units === 'metric' ? 'm/s' : 'm/h';
+
+  const contentDiv = document.querySelector('.content');
 
   //  Card Container appended to content Div
   const cardContainer = document.createElement('div');
-  weatherCard.className = 'weatherCard';
-  contentDiv.appendChild(weatherCard);
+  cardContainer.className = 'cardContainer';
+  contentDiv.appendChild(cardContainer);
+
+  // Feels like Div
+  const feelsLikeCard = document.createElement('div');
+  const feelsLike = document.createElement('div');
+  const feelsLikeData = document.createElement('div');
+  feelsLike.innerText = 'Feels like';
+  feelsLikeData.innerText = `${Math.round(data.main.feels_like)}°`;
+  feelsLikeCard.className = 'feelsLikeCard';
+  feelsLikeCard.appendChild(feelsLike);
+  feelsLikeCard.appendChild(feelsLikeData);
+  cardContainer.appendChild(feelsLikeCard);
+
+  // Humidity  Div
+  const humidityCard = document.createElement('div');
+  const humidity = document.createElement('div');
+  const humidityData = document.createElement('div');
+  humidity.innerText = 'Humidity';
+  humidityData.innerText = `${data.main.humidity} %`;
+  humidityCard.className = 'humidityCard';
+  humidityCard.appendChild(humidity);
+  humidityCard.appendChild(humidityData);
+  cardContainer.appendChild(humidityCard);
+
+  // Chance of Rain  Div
+  const cOfRainCard = document.createElement('div');
+  const cOfRain = document.createElement('div');
+  const cOfRainData = document.createElement('div');
+  cOfRain.innerText = 'Chance of Rain';
+  if (data.hasOwnProperty.call('rain')) {
+    cOfRainData.innerText = `${data.rain['1h'] * 100} %`;
+  } else {
+    cOfRainData.innerText = `N/A`;
+  }
+
+  //   cOfRainData.innerText = `${data.rain['1h'] * 100} %`;
+  cOfRainCard.className = 'cOfRainCard';
+  cOfRainCard.appendChild(cOfRain);
+  cOfRainCard.appendChild(cOfRainData);
+  cardContainer.appendChild(cOfRainCard);
+
+  // windSpeed Div
+  const windSpeedCard = document.createElement('div');
+  const windSpeed = document.createElement('div');
+  const windSpeedData = document.createElement('div');
+  windSpeed.innerText = 'Wind Speed';
+  windSpeedData.innerText = `${data.wind.speed} ${speed}`;
+  windSpeedCard.className = 'windSpeedCard';
+  windSpeedCard.appendChild(windSpeed);
+  windSpeedCard.appendChild(windSpeedData);
+  cardContainer.appendChild(windSpeedCard);
 }
 
 function getTime(timezone) {

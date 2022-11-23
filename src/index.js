@@ -45,6 +45,7 @@ async function getWeatherDataForecast(lat, long) {
 async function getWeatherDataCurrent(lat, long) {
   const data = await currentWeather(lat, long);
 
+  miniDataCards(data)
   currentWeatherCard(data);
 }
 
