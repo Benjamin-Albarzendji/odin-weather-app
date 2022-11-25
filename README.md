@@ -11,6 +11,7 @@
 <img src="src/images/README/forecast.png" alt="drawing" width="800" style = "border-radius: 15px" />
 
 ## Access the page [here](https://benjamin-albarzendji.github.io/odin-weather-app/)
+## NOTE RECOMMEND TO CLONE AND TEST. FOR SOME REASON, IT DOESNT WORK AS INTENDED ON GH PAGES. 
 
 ### Description
 This is a project leveraging the OpenWeatherMap free API to enable an user to check the weather for a location of their choice. It tries to default to users own location but if that fails then it will return the weather detalis of Stockholm.   
