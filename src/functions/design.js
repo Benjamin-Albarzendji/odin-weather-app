@@ -1,9 +1,19 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-use-before-define */
 // Appends a content div to the body of the document
 
+import { eventListenerChainStarter } from '..';
+
 // Image cache from the icons folder
 
-export { bodyAppender, currentWeatherCard, weatherCardRemover, miniDataCards };
+export {
+  bodyAppender,
+  currentWeatherCard,
+  weatherCardRemover,
+  miniDataCards,
+  forecastDataCards,
+};
 
 const cache = {};
 
@@ -74,7 +84,12 @@ function currentWeatherCard(data, units = 'metric') {
   time.className = 'time';
   weatherCard.appendChild(time);
 
-  console.log(data);
+  // Input field
+  const input = document.createElement('input');
+  input.required = true;
+  input.placeholder = 'Search Location...';
+  eventListenerAdder(input, 'keydown');
+  weatherCard.appendChild(input);
 }
 
 // Creates the data mini cards above the main card
@@ -115,13 +130,11 @@ function miniDataCards(data, units = 'metric') {
   const cOfRain = document.createElement('div');
   const cOfRainData = document.createElement('div');
   cOfRain.innerText = 'Precipitation';
-  if (('rain') in data) {
+  if ('rain' in data) {
     cOfRainData.innerText = `${data.rain['1h'] * 100} %`;
-  }
-  else if (("snow")in data){
+  } else if ('snow' in data) {
     cOfRainData.innerText = `${data.snow['1h'] * 100} %`;
-  }
-  else {
+  } else {
     cOfRainData.innerText = `N/A`;
   }
 
@@ -173,6 +186,103 @@ function imageAppender(e, code = '01d') {
   e.appendChild(img);
 }
 
+function forecastDataCards(data) {
+  const contentDiv = document.querySelector('.content');
+
+  //  Card Container appended to content Div
+  const forecastCardContainer = document.createElement('div');
+  forecastCardContainer.className = 'forecastCardContainer';
+  contentDiv.appendChild(forecastCardContainer);
+
+  // day 1 Card
+  const day1Card = document.createElement('div');
+  day1Card.className = 'day1Card';
+  const day1Temp = document.createElement('div');
+  const day1Date = document.createElement('div');
+
+  day1Temp.innerText = `${Math.round(data.list[8].main.temp)}°`;
+  const date = data.list[8].dt_txt.slice(0, 10);
+  const dateObject1 = new Date(date);
+  const day1DateData = dateObject1.toDateString();
+  day1Date.innerText = day1DateData.slice(0, 3);
+
+  forecastCardContainer.appendChild(day1Card);
+  day1Card.appendChild(day1Date);
+  day1Card.appendChild(day1Temp);
+  imageAppender(day1Card, data.list[8].weather[0].icon);
+
+  // day 2 Card
+  const day2Card = document.createElement('div');
+  day2Card.className = 'day2Card';
+  const day2Temp = document.createElement('div');
+  const day2Date = document.createElement('div');
+
+  day2Temp.innerText = `${Math.round(data.list[16].main.temp)}°`;
+  const date2 = data.list[16].dt_txt.slice(0, 10);
+  const dateObject2 = new Date(date2);
+  const day2DateData = dateObject2.toDateString();
+  day2Date.innerText = day2DateData.slice(0, 3);
+
+  forecastCardContainer.appendChild(day2Card);
+  day2Card.appendChild(day2Date);
+  day2Card.appendChild(day2Temp);
+  imageAppender(day2Card, data.list[16].weather[0].icon);
+
+  // day 3 Card
+  const day3Card = document.createElement('div');
+  day3Card.className = 'day3Card';
+  const day3Temp = document.createElement('div');
+  const day3Date = document.createElement('div');
+
+  day3Temp.innerText = `${Math.round(data.list[24].main.temp)}°`;
+  const date3 = data.list[24].dt_txt.slice(0, 10);
+  const dateObject3 = new Date(date3);
+  const day3DateData = dateObject3.toDateString();
+  day3Date.innerText = day3DateData.slice(0, 3);
+
+  forecastCardContainer.appendChild(day3Card);
+
+  day3Card.appendChild(day3Date);
+  day3Card.appendChild(day3Temp);
+  imageAppender(day3Card, data.list[24].weather[0].icon);
+
+  // day 4 Card
+  const day4Card = document.createElement('div');
+  day4Card.className = 'day4Card';
+  const day4Temp = document.createElement('div');
+  const day4Date = document.createElement('div');
+
+  day4Temp.innerText = `${Math.round(data.list[32].main.temp)}°`;
+  const date4 = data.list[32].dt_txt.slice(0, 10);
+  const dateObject4 = new Date(date4);
+  const day4DateData = dateObject4.toDateString();
+  day4Date.innerText = day4DateData.slice(0, 3);
+
+  forecastCardContainer.appendChild(day4Card);
+
+  day4Card.appendChild(day4Date);
+  day4Card.appendChild(day4Temp);
+  imageAppender(day4Card, data.list[32].weather[0].icon);
+
+  // day 5 Card
+  const day5Card = document.createElement('div');
+  day5Card.className = 'day5Card';
+  const day5Temp = document.createElement('div');
+  const day5Date = document.createElement('div');
+
+  day5Temp.innerText = `${Math.round(data.list[39].main.temp)}°`;
+  const date5 = data.list[39].dt_txt.slice(0, 10);
+  const dateObject5 = new Date(date5);
+  const day5DateData = dateObject5.toDateString();
+  day5Date.innerText = day5DateData.slice(0, 3);
+
+  forecastCardContainer.appendChild(day5Card);
+
+  day5Card.appendChild(day5Date);
+  day5Card.appendChild(day5Temp);
+  imageAppender(day5Card, data.list[39].weather[0].icon);
+}
+
 function bodyAppender() {
   const { body } = document;
 
@@ -186,5 +296,19 @@ function weatherCardRemover() {
   const weatherCard = document.querySelector('.weatherCard');
   weatherCard.remove();
 
-  console.log('Removed');
+  const dataCards = document.querySelector('.cardContainer');
+  dataCards.remove();
+
+  const foreCastCards = document.querySelector('.forecastCardContainer');
+  foreCastCards.remove();
+}
+
+function eventListenerAdder(object, event = 'click') {
+  if (event === 'keydown') {
+    object.addEventListener(event, (e) => {
+      if (e.keyCode === 13) {
+        eventListenerChainStarter(e.target.value);
+      }
+    });
+  }
 }
