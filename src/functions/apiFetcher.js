@@ -46,7 +46,6 @@ async function currentWeather(lat, long, units = 'metric') {
     if (weatherData.status !== 200) {
       return '!200';
     }
-    
 
     const weatherDataJSON = await weatherData.json();
 

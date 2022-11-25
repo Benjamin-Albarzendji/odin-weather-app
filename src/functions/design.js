@@ -16,7 +16,6 @@ export {
 };
 
 const cache = {};
-
 importAll(require.context('../images/icons', false, /\.(png|jpe?g|svg)$/));
 
 // Generates the current Weather Card
@@ -113,6 +112,7 @@ function miniDataCards(data, units = 'metric') {
   feelsLikeCard.appendChild(feelsLike);
   feelsLikeCard.appendChild(feelsLikeData);
   cardContainer.appendChild(feelsLikeCard);
+  imageAppender(feelsLikeCard, 'feel');
 
   // Humidity  Div
   const humidityCard = document.createElement('div');
@@ -124,6 +124,7 @@ function miniDataCards(data, units = 'metric') {
   humidityCard.appendChild(humidity);
   humidityCard.appendChild(humidityData);
   cardContainer.appendChild(humidityCard);
+  imageAppender(humidityCard, 'humid');
 
   // Chance of Rain  Div
   const cOfRainCard = document.createElement('div');
@@ -143,6 +144,7 @@ function miniDataCards(data, units = 'metric') {
   cOfRainCard.appendChild(cOfRain);
   cOfRainCard.appendChild(cOfRainData);
   cardContainer.appendChild(cOfRainCard);
+  imageAppender(cOfRainCard, 'CoR');
 
   // windSpeed Div
   const windSpeedCard = document.createElement('div');
@@ -154,6 +156,7 @@ function miniDataCards(data, units = 'metric') {
   windSpeedCard.appendChild(windSpeed);
   windSpeedCard.appendChild(windSpeedData);
   cardContainer.appendChild(windSpeedCard);
+  imageAppender(windSpeedCard, 'windSpeed');
 }
 
 function getTime(timezone) {
@@ -306,7 +309,7 @@ function weatherCardRemover() {
 function eventListenerAdder(object, event = 'click') {
   if (event === 'keydown') {
     object.addEventListener(event, (e) => {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && e.target.value !== "") {
         eventListenerChainStarter(e.target.value);
       }
     });

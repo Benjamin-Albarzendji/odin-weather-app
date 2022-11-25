@@ -16,10 +16,20 @@ import {
 
 export { eventListenerChainStarter };
 
-// Initial run on firt visit
+// Initial run on first visit
 bodyAppender();
-getCoordinates(2);
-getCoordinates(1);
+navigator.geolocation.getCurrentPosition(GeoSuccess, GeoError);
+
+// Runs user location
+async function GeoSuccess(data) {
+  await getWeatherDataCurrent(data.coords.latitude, data.coords.longitude);
+  getWeatherDataForecast(data.coords.latitude, data.coords.longitude);
+}
+// Runs default location fo Stockholm
+function GeoError(data) {
+  getCoordinates(2);
+  getCoordinates(1);
+}
 
 // Function to get coordinates
 async function getCoordinates(APIchoice, location) {

@@ -33,17 +33,21 @@ body {
   padding: 20px;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
   width: 10%;
-
   gap: 10px;
+  position: relative;
 }
 .content .cardContainer > * > *:first-child {
   font-size: 1.2em;
   font-weight: 600;
 }
+
+.content .cardContainer > * > img{
+    width: 20%;
+} 
+
 .weatherCard {
-    position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,9 +88,9 @@ body {
   width: 50%;
 }
 
-.weatherCard .warning{
-    position:absolute;
-    bottom: 3%;
+.weatherCard .warning {
+  position: absolute;
+  bottom: 3%;
 }
 
 .weatherCard input:focus {
